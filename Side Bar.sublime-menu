@@ -1,0 +1,22 @@
+[
+    {
+        "id": "angular-jasmine-boilerplate",
+        "caption": "Jasmine Boilerplate",
+        "children": [
+            {
+                "caption": "Set Base Folder",
+                "command": "set_base_folder",
+                "args": {
+                    "paths": []
+                }
+            },
+            {
+                "caption": "Set Test Folder",
+                "command": "set_test_folder",
+                "args": {
+                    "paths": []
+                }
+            }
+        ]
+    }
+]

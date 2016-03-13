@@ -1,0 +1,6 @@
+[
+    {
+        "caption": "Generate Jasmine Boilerplate",
+        "command": "angular_jasmine_boilerplate"
+    }
+]
