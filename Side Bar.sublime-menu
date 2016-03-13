@@ -4,8 +4,8 @@
         "caption": "Jasmine Boilerplate",
         "children": [
             {
-                "caption": "Set Base Folder",
-                "command": "set_base_folder",
+                "caption": "Set Source Folder",
+                "command": "set_source_folder",
                 "args": {
                     "paths": []
                 }

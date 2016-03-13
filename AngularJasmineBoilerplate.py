@@ -10,7 +10,7 @@ PLUGIN_FOLDER = os.path.dirname(os.path.realpath(__file__))
 SETTINGS_FILE = "AngularJasmineBoilerplate.sublime-settings"
 CONFIGURATION_KEY = "configurations"
 
-class SetBaseFolderCommand(sublime_plugin.WindowCommand):
+class SetSourceFolderCommand(sublime_plugin.WindowCommand):
     def run(self, paths = []):
         PluginUtils.set_project_configuration_path(self.window, "base-path", paths[0])
 
