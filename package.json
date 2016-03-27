@@ -2,7 +2,7 @@
   "name": "angular-jasmine-boilerplate-sublime",
   "license": "MIT",
   "version": "1.0.0",
-  "description": "AngularJS Jasmine Boilerplate Generator Sublime Plugin",
+  "description": "AngularJS Jasmine Boilerplate Generator Sublime Package",
   "repository": {
     "type": "git",
     "url": "https://github.com/namoscato/angular-jasmine-boilerplate-sublime"

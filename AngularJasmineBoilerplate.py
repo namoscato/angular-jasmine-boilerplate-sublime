@@ -9,6 +9,8 @@ except ImportError:
 PLUGIN_FOLDER = os.path.dirname(os.path.realpath(__file__))
 SETTINGS_FILE = "AngularJasmineBoilerplate.sublime-settings"
 CONFIGURATION_KEY = "configurations"
+OUTPUT_WRITING_FILES = "Writing boilerplate files...\n"
+OUTPUT_ALREADY_EXISTS = "already exists"
 
 class SetSourceFolderCommand(sublime_plugin.WindowCommand):
     def run(self, paths = []):
@@ -36,39 +38,48 @@ class AngularJasmineBoilerplateCommand(sublime_plugin.TextCommand):
                 sublime.message_dialog("This project has not been configured for Jasmine boilerplate generation.\n\nRight click on the base and test folders to configure.")
                 return
 
-            cmd = [
-                PluginUtils.get_node_path(),
-                PLUGIN_FOLDER + "/node_modules/angular-jasmine-boilerplate/bin/generate.js",
-                "--base-path=" + base_path,
-                "--test-path=" + test_path,
-                self.view.file_name()
-            ]
+            output_files = AngularJasmineBoilerplateCommand.run_command(self, base_path, test_path)
 
-            run = '"' + '" "'.join(cmd) + '"'
-            output = subprocess.check_output(run, stderr=subprocess.STDOUT, shell=True, env=os.environ).decode("utf-8")
-
-            output_files = output.split("Writing boilerplate files...\n", 1)
-
-            if len(output_files) != 2:
-                return AngularJasmineBoilerplateCommand.error_dialog()
-
-            output_files = output_files[1].split("\n")
-
-            if len(output_files) != 2: # TODO: Update when we support multiple files
-                return AngularJasmineBoilerplateCommand.error_dialog()
+            if output_files[0].find(OUTPUT_ALREADY_EXISTS) != -1: # TODO: Update when we support multiple files
+                if sublime.ok_cancel_dialog("Boilerplate file " + output_files[0], "Overwrite"):
+                    output_files = AngularJasmineBoilerplateCommand.run_command(self, base_path, test_path, True)
+                else:
+                    return
 
             for file in output_files:
                 if file:
                     self.view.window().open_file(test_path + "/" + file)
-
         except:
             print("Unexpected error({0}): {1}".format(sys.exc_info()[0], sys.exc_info()[1]))
             traceback.print_tb(sys.exc_info()[2])
-            AngularJasmineBoilerplateCommand.error_dialog()
+            sublime.message_dialog("Unable to generate Jasmine boilerplate.\n\nEnsure that the AngularJS service or controller is annotated correctly.")
 
-    @staticmethod
-    def error_dialog():
-        sublime.message_dialog("Unable to generate Jasmine boilerplate.\n\nEnsure that the AngularJS service or controller is annotated correctly.")
+    def run_command(self, base_path, test_path, force=False):
+        """Runs the generate command with the specified base and test paths
+
+        Args:
+            base_path (str): Base path
+            test_path (str): Test path
+            force (Optional[boolean]): Optional force option. Defaults to False.
+
+        Returns:
+            List[str]: List of parsed output files
+        """
+        cmd = [
+            PluginUtils.get_node_path(),
+            PLUGIN_FOLDER + "/node_modules/angular-jasmine-boilerplate/bin/generate.js",
+            "--base-path=" + base_path,
+            "--test-path=" + test_path,
+            "--force" if force else "--non-interactive",
+            self.view.file_name()
+        ]
+
+        run = '"' + '" "'.join(cmd) + '"'
+        output = subprocess.check_output(run, stderr=subprocess.STDOUT, shell=True, env=os.environ).decode("utf-8")
+
+        output_files = output.split(OUTPUT_WRITING_FILES, 1)
+
+        return output_files[1].split("\n")
 
 class PluginUtils:
     @staticmethod
