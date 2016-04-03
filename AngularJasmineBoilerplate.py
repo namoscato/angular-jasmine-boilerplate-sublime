@@ -13,20 +13,24 @@ OUTPUT_WRITING_FILES = "Writing boilerplate files...\n"
 OUTPUT_ALREADY_EXISTS = "already exists"
 
 class SetSourceFolderCommand(sublime_plugin.WindowCommand):
+    def is_enabled(self, paths = []):
+        return PluginUtils.is_dir(paths[0])
+
     def run(self, paths = []):
         PluginUtils.set_project_configuration_path(self.window, "base-path", paths[0])
 
+class SetTestFolderCommand(sublime_plugin.WindowCommand):
     def is_enabled(self, paths = []):
         return PluginUtils.is_dir(paths[0])
 
-class SetTestFolderCommand(sublime_plugin.WindowCommand):
     def run(self, paths = []):
         PluginUtils.set_project_configuration_path(self.window, "test-path", paths[0])
 
-    def is_enabled(self, paths = []):
-        return PluginUtils.is_dir(paths[0])
-
 class AngularJasmineBoilerplateCommand(sublime_plugin.TextCommand):
+    def is_enabled(self):
+        file_name = self.view.file_name()
+        return file_name.endswith(".js") or file_name.endswith(".ts")
+
     def run(self, edit):
         try:
             configuration = PluginUtils.get_project_configuration(self.view.window())
