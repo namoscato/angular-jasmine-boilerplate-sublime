@@ -6,10 +6,7 @@ Depends on [`angular-jasmine-boilerplate`](https://github.com/namoscato/angular-
 
 ## Installation
 
-    cd ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/
-    git clone https://github.com/namoscato/angular-jasmine-boilerplate-sublime.git
-    cd angular-jasmine-boilerplate-sublime/
-    npm install
+Install `Angular​JS Jasmine Boilerplate` via [Package Control](https://packagecontrol.io/).
 
 ## Usage
 
