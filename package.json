@@ -1,7 +1,7 @@
 {
   "name": "angular-jasmine-boilerplate-sublime",
   "license": "MIT",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "AngularJS Jasmine Boilerplate Generator Sublime Package",
   "repository": {
     "type": "git",
