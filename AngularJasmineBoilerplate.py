@@ -33,7 +33,7 @@ class AngularJasmineBoilerplateCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
         try:
-            configuration = PluginUtils.get_project_configuration(self.view.window())
+            configuration = PluginUtils.get_project_configuration(self.view.window(), self.view.file_name())
 
             base_path = configuration.get("base-path")
             test_path = configuration.get("test-path")
@@ -79,7 +79,7 @@ class AngularJasmineBoilerplateCommand(sublime_plugin.TextCommand):
         ]
 
         run = '"' + '" "'.join(cmd) + '"'
-        output = subprocess.check_output(run, stderr=subprocess.STDOUT, shell=True, env=os.environ).decode("utf-8")
+        output = subprocess.Popen(run, stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True, env=os.environ).communicate()[0].decode("utf-8")
 
         output_files = output.split(OUTPUT_WRITING_FILES, 1)
 
@@ -88,16 +88,39 @@ class AngularJasmineBoilerplateCommand(sublime_plugin.TextCommand):
 class PluginUtils:
     @staticmethod
     def get_setting(key):
+        """Returns the named setting
+
+        Args:
+            key (str): Setting name
+
+        Returns:
+            str: Setting value
+        """
         return sublime.load_settings(SETTINGS_FILE).get(key)
 
     @staticmethod
     def set_setting(key, value):
+        """Sets the named setting value
+
+        Args:
+            key (str): Setting name
+            path (str): Setting value
+        """
         sublime.load_settings(SETTINGS_FILE).set(key, value)
         sublime.save_settings(SETTINGS_FILE)
 
     @staticmethod
-    def get_configurations(window):
-        project_folder = PluginUtils.get_project_folder(window)
+    def get_configurations(window, path):
+        """Returns the set of project configurations
+
+        Args:
+            window (sublime.Window): Sublime window instance
+            path (str): File path
+
+        Returns:
+            dict: Full set of project configurations
+        """
+        project_folder = PluginUtils.get_project_folder(window, path)
         configurations = PluginUtils.get_setting(CONFIGURATION_KEY)
 
         if not configurations:
@@ -109,16 +132,32 @@ class PluginUtils:
         return configurations
 
     @staticmethod
-    def get_project_configuration(window):
-        project_folder = PluginUtils.get_project_folder(window)
-        configurations = PluginUtils.get_configurations(window)
+    def get_project_configuration(window, path):
+        """Returns the project configuration for the specified path
+
+        Args:
+            window (sublime.Window): Sublime window instance
+            path (str): File path
+
+        Returns:
+            dict: Mapping of configuration keys to values
+        """
+        project_folder = PluginUtils.get_project_folder(window, path)
+        configurations = PluginUtils.get_configurations(window, path)
 
         return configurations[project_folder]
 
     @staticmethod
     def set_project_configuration_path(window, key, path):
-        project_folder = PluginUtils.get_project_folder(window)
-        configurations = PluginUtils.get_configurations(window)
+        """Sets the key to the specified configuration path
+
+        Args:
+            window (sublime.Window): Sublime window instance
+            key (str): Configuration key
+            path (str): Path to configuration directory
+        """
+        project_folder = PluginUtils.get_project_folder(window, path)
+        configurations = PluginUtils.get_configurations(window, path)
 
         configurations[project_folder][key] = path
 
@@ -126,14 +165,35 @@ class PluginUtils:
 
     @staticmethod
     def get_node_path():
+        """Returns the Node.js path per the system's operating system
+
+        Returns:
+            str: Node.js path
+        """
         platform = sublime.platform()
         node = PluginUtils.get_setting("node_path").get(platform)
         return node
 
     @staticmethod
-    def get_project_folder(window):
-        return window.extract_variables().get("folder")
+    def get_project_folder(window, path):
+        """Returns the project folder for the specified file path
+
+        Args:
+            window (sublime.Window): Sublime window instance
+            path (str): File path
+
+        Returns:
+            str: Project folder path
+        """
+        for folder in window.folders():
+            if (path.startswith(folder)):
+                return folder
 
     @staticmethod
     def is_dir(path):
+        """Determines whether or not the specified path is a directory
+
+        Returns:
+            boolean
+        """
         return os.path.isdir(path)
