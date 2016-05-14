@@ -6,7 +6,7 @@ var canonicalPath = require('canonical-path'),
     readlineSync = require('readline-sync');
 
 /**
- * @dgProcessor dependencies
+ * @dgProcessor logOutputFilesProcessor
  * @description Logs the set of output files that will be processed
  */
 module.exports = function logOutputFilesProcessor(writeFilesProcessor) {

@@ -1,6 +1,7 @@
-module.exports = function() {
+module.exports = function(extractTypeTransform, extractAccessTransform) {
+  extractAccessTransform.allowedTags.set('private');
   return {
     name: 'private',
-    transforms: function() { return true; }
+    transforms: [extractTypeTransform, extractAccessTransform]
   };
 };

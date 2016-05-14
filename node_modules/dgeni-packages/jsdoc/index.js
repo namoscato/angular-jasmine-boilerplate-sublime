@@ -20,7 +20,9 @@ module.exports = new Package('jsdoc', [require('../base')])
 .processor(require('./processors/extract-tags'))
 .processor(require('./processors/inline-tags'))
 
-
+.factory(require('./services/code-name-map'))
+.factory(require('./services/code-name'))
+.factory(require('./services/transforms/extract-access'))
 .factory(require('./services/transforms/extract-name'))
 .factory(require('./services/transforms/extract-type'))
 .factory(require('./services/transforms/unknown-tag'))
@@ -69,4 +71,8 @@ module.exports = new Package('jsdoc', [require('../base')])
     pathTemplate: '${id}',
     outputPathTemplate: '${path}.html'
   });
+})
+
+.config(function(codeNameService, getInjectables) {
+  codeNameService.matchers = getInjectables(require('./services/code-name-matchers'));
 });

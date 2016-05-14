@@ -1,5 +1,9 @@
 
 module.exports = [
+  require('./access'),
+  require('./private'),
+  require('./protected'),
+  require('./public'),
   require('./name'),
   require('./memberof'),
   require('./param'),
@@ -10,7 +14,6 @@ module.exports = [
   require('./module'),
   require('./description'),
   require('./deprecated'),
-  require('./private'),
   require('./see'),
   require('./usage'),
   require('./animations'),

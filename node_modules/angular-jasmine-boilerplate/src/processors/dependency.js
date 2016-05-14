@@ -3,7 +3,7 @@
 var _ = require('lodash');
 
 /**
- * @dgProcessor dependencies
+ * @dgProcessor dependencyProcessor
  * @description Compiles a list of relevant dependency meta data
  */
 module.exports = function dependencyProcessor(log) {

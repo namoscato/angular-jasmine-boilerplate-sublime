@@ -2,6 +2,8 @@
 
 Generates boilerplate [Jasmine](http://jasmine.github.io/) tests from [annotated](https://github.com/angular/angular.js/wiki/Writing-AngularJS-Documentation) [AngularJS](https://angularjs.org/) components via [Dgeni](https://github.com/angular/dgeni).
 
+![Screencast](assets/screencast.gif)
+
     angular-jasmine-boilerplate [--save] [--base-path=path] [--test-path=path] [--config=path] [--non-interactive] [--force] [file ...]
 
 | Option | Type | Description |
@@ -13,11 +15,11 @@ Generates boilerplate [Jasmine](http://jasmine.github.io/) tests from [annotated
 | `--non-interactive` | boolean | Disables interactive prompt when boilerplate file already exists, and immediately excludes file |
 | `--force` | boolean | Forces the boilerplate to be generated, regardless of its previous existence |
 
-## Usage
+## Command-line Interface
 
 1. Install dependencies:
 
-        npm install
+        npm install -g angular-jasmine-boilerplate
 
 2. Save relevant paths:
 
@@ -28,6 +30,10 @@ Generates boilerplate [Jasmine](http://jasmine.github.io/) tests from [annotated
         angular-jasmine-boilerplate session/session.service.js
 
     where the arguments are one or more paths to annotated AngularJS components, relative to `base-path`.
+
+## Text Editor Packages
+
+This utility is also available for [Sublime Text](https://github.com/namoscato/angular-jasmine-boilerplate-sublime).
 
 ## Supports
 

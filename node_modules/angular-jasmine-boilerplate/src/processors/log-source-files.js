@@ -3,7 +3,7 @@
 var colors = require('colors/safe');
 
 /**
- * @dgProcessor dependencies
+ * @dgProcessor logSourceFilesProcessor
  * @description Logs the set of source files that will be processed
  */
 module.exports = function logSourceFilesProcessor() {
