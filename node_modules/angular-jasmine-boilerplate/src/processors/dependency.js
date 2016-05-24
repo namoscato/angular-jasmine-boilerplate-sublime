@@ -56,7 +56,7 @@ module.exports = function dependencyProcessor(log) {
                         });
                     });
 
-                    dependencies.variableDefinitions = "\n    var " + _.map(dependencies.spies, 'variable').join(",\n        ") + ";\n";
+                    dependencies.variableDefinitions = "\n    var " + _.map(dependencies.spies, 'variable').join(";\n    var ") + ";\n";
                 }
 
                 log.debug('Compiled ' + dependencies.spies.length + ' dependencies');

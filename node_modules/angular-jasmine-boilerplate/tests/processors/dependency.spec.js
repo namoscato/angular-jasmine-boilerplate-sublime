@@ -1,9 +1,9 @@
-var rewire = require('rewire'),
-    dependencyProcessor = rewire('../../src/processors/dependency');
+var rewire = require('rewire');
+var dependencyProcessor = rewire('../../src/processors/dependency');
 
 describe('dependencyProcessor', function() {
-    var docs,
-        target;
+    var docs;
+    var target;
 
     var logSpy;
 
@@ -91,7 +91,7 @@ describe('dependencyProcessor', function() {
                             variable: 'bDepSpy'
                         }
                     ],
-                    variableDefinitions: "\n    var depSpy,\n        aDepSpy,\n        bDepSpy;\n"
+                    variableDefinitions: "\n    var depSpy;\n    var aDepSpy;\n    var bDepSpy;\n"
                 });
             });
         });
@@ -152,7 +152,7 @@ describe('dependencyProcessor', function() {
                             variable: 'bDepSpy'
                         }
                     ],
-                    variableDefinitions: "\n    var depSpy,\n        aDepSpy,\n        bDepSpy;\n"
+                    variableDefinitions: "\n    var depSpy;\n    var aDepSpy;\n    var bDepSpy;\n"
                 });
             });
         });

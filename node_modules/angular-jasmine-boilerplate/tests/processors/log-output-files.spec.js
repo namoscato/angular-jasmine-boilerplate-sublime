@@ -1,14 +1,14 @@
-var rewire = require('rewire'),
-    logOutputFilesProcessor = rewire('../../src/processors/log-output-files');
+var rewire = require('rewire');
+var logOutputFilesProcessor = rewire('../../src/processors/log-output-files');
 
 describe('logOutputFilesProcessor', function() {
     var target;
 
-    var canonicalPathSpy,
-        colorsSpy,
-        consoleSpy,
-        fsSpy,
-        readlineSyncSpy;
+    var canonicalPathSpy;
+    var colorsSpy;
+    var consoleSpy;
+    var fsSpy;
+    var readlineSyncSpy;
 
     var canonicalPathRelativeCount;
 

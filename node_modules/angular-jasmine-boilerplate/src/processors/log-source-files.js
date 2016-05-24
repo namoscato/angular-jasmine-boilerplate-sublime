@@ -12,10 +12,10 @@ module.exports = function logSourceFilesProcessor() {
         $runAfter: ['reading-files'],
         $runBefore: ['processing-docs'],
         $process: function(docs) {
-            var count,
-                path,
-                pathsHash = {},
-                summary;
+            var count;
+            var path;
+            var pathsHash = {};
+            var summary;
 
             console.log('\nReading source files...');
 

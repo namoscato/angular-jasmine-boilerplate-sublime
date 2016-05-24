@@ -1,9 +1,9 @@
-var rewire = require('rewire'),
-    descriptionProcessor = rewire('../../src/processors/description');
+var rewire = require('rewire');
+var descriptionProcessor = rewire('../../src/processors/description');
 
 describe('descriptionProcessor', function() {
-    var docs,
-        target;
+    var docs;
+    var target;
 
     var nlpSpy;
     var nlpVerbSpy;
