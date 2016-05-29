@@ -1,7 +1,11 @@
 describe('{$ doc.name $}', function() {
     var result;
     var target;
-{$ doc.dependencies.variableDefinitions $}
+{% for blocks in doc.dependencies.variables %}
+{%- for variable in blocks %}
+    var {$ variable $};
+{%- endfor %}
+{% endfor %}
     beforeEach(module('{$ doc.module $}'));
 {% block content %}{% endblock -%}
 

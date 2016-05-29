@@ -2,7 +2,7 @@
     /**
      * {$ method.name $}
      */
-    
+
     describe('When {$ method.descriptionSummary $}', function() {
         beforeEach(function() {
             {% if doc.docType == 'controller' -%}
