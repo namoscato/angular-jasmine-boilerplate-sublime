@@ -30,9 +30,7 @@ module.exports = function dependencyProcessor(log) {
                 };
 
                 if (typeof doc.requires !== 'undefined') {
-                    _.sortBy(doc.requires, function(require) {
-                        return require;
-                    }).forEach(function(dependency) {
+                    doc.requires.forEach(function(dependency) {
                         var chainedMethods = {};
                         var dependencyObject;
                         var match;
@@ -84,10 +82,18 @@ module.exports = function dependencyProcessor(log) {
 
                         dependencies.spies.push(dependencyObject);
                     });
-
-                    pushVariables(dependencies, _.map(dependencies.spies, 'variable'));
-                    pushVariables(dependencies, additionalVariables.sort());
                 }
+
+                if (doc.docType === 'componentController' && typeof dependencies.coreSpies.$scope === 'undefined') {
+                    dependencies.spies.push(
+                        createDependencyObject('$scope')
+                    );
+                }
+
+                dependencies.spies = _.sortBy(dependencies.spies, 'name');
+
+                pushVariables(dependencies, _.map(dependencies.spies, 'variable'));
+                pushVariables(dependencies, additionalVariables.sort());
 
                 log.debug('Compiled ' + dependencies.spies.length + ' dependencies');
 
@@ -105,9 +111,7 @@ module.exports = function dependencyProcessor(log) {
      * @returns {Object}
      */
     function createDependencyObject(dependency, methods, methodSpies) {
-        var areMethodsUndefined = typeof methods === 'undefined';
-
-        if (areMethodsUndefined) {
+        if (typeof methods === 'undefined') {
             methods = [];
         }
 
@@ -122,7 +126,7 @@ module.exports = function dependencyProcessor(log) {
             methods: methods,
             methodString: "'" + methods.join("', '") + "'",
             methodSpies: methodSpies.sort(getCompareFunction('name')),
-            variable: getVariableName(dependency, !areMethodsUndefined) // Append "Spy" if `methods` was defined
+            variable: getVariableName(dependency)
         };
     }
 
@@ -150,19 +154,14 @@ module.exports = function dependencyProcessor(log) {
      * @name dependencyProcessor#getVariableName
      * @description Returns the variable name for the specified dependency
      * @param {String} dependency
-     * @param {Boolean} [appendSpy=true] Whether or not "Spy" is appended to variable name
      * @returns {Boolean}
      */
-    function getVariableName(dependency, appendSpy) {
+    function getVariableName(dependency) {
         if (isInternalService(dependency)) {
             dependency = dependency.substr(1);
         }
 
-        if (typeof appendSpy === 'undefined' || appendSpy) {
-            dependency += 'Spy';
-        }
-
-        return dependency;
+        return dependency + 'Spy';
     }
 
     /**

@@ -293,4 +293,40 @@ describe('dependencyProcessor', function() {
             });
         });
     });
+
+    describe('When processing a component controller', function() {
+        beforeEach(function() {
+            docs = [
+                {
+                    docType: 'componentController',
+                    fileInfo: {
+                        content: ''
+                    },
+                    requires: []
+                }
+            ];
+
+            target.$process(docs);
+        });
+
+        it('should include a $scope dependency', function() {
+            expect(docs[0].dependencies).toEqual({
+                coreSpies: {},
+                spies: [
+                    {
+                        name: '$scope',
+                        methods: [],
+                        methodString: "''",
+                        methodSpies: [],
+                        variable: 'scopeSpy'
+                    }
+                ],
+                variables: [
+                    [
+                        'scopeSpy',
+                    ]
+                ]
+            });
+        });
+    });
 });
